@@ -309,8 +309,8 @@ Este modelo permite:
 
 ## References
 
-[NeMo Guardrails Library Configuration Overview]
-(https://docs.nvidia.com/nemo/guardrails/latest/configure-rails/overview.html)
+(NeMo Guardrails Library Configuration Overview)
+[https://docs.nvidia.com/nemo/guardrails/latest/configure-rails/overview.html]
 Visão geral de como estruturar o sistema de controle do LLM
 
 
