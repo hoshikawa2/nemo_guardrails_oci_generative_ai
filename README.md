@@ -318,10 +318,10 @@ Visão geral de como estruturar o sistema de controle do LLM
 - [Tools Integration with the NeMo Guardrails Library](https://docs.nvidia.com/nemo/guardrails/latest/integration/tools-integration.html)
 
 Como integrar ferramentas externas (tools/APIs) dentro de um fluxo com NVIDIA NeMo Guardrails.
-  • Executar ações externas
-  • Chamar APIs
-  • Usar funções ou serviços do sistema
-  • Integrar com agentes e workflows reais
+- Executar ações externas
+- Chamar APIs
+- Usar funções ou serviços do sistema
+- Integrar com agentes e workflows reais
 
 
 ### Observability:
