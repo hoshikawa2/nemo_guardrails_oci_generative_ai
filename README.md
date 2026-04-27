@@ -1,119 +1,119 @@
 
-# Tutorial Avançado: Integração do NeMo Guardrails com OCI Generative AI via Proxy OpenAI-Compatible
+# Advanced Tutorial: Integrating NeMo Guardrails with OCI Generative AI via an OpenAI-Compatible Proxy
 
 ---
 
-## Introdução
+## Introduction
 
-Este tutorial demonstra como utilizar o **OCI Generative AI** por meio de uma interface compatível com a API da OpenAI, permitindo integração com frameworks modernos como o NeMo Guardrails.
+This tutorial demonstrates how to use **OCI Generative AI** through an OpenAI-compatible API interface, enabling integration with modern frameworks such as NVIDIA NeMo Guardrails.
 
-A ideia principal não é apenas “usar um proxy”, mas sim:
+The main idea is not just to “use a proxy”, but rather:
 
->**Nota:** **desacoplar o modelo de linguagem (LLM) da aplicação**, criando uma camada intermediária que permite:
-- trocar modelos facilmente
-- integrar diferentes provedores (OCI, OpenAI, modelos locais)
-- padronizar consumo via API OpenAI
-
----
-
-## Ideia Central
-
-O proxy `oci_openai_proxy.py` atua como um **adaptador universal**:
-
-- Recebe requisições no padrão OpenAI (`/v1/chat/completions`)
-- Traduz para chamadas do OCI Generative AI
-- Retorna resposta no mesmo formato OpenAI
-
->**Nota:** Isso permite que ferramentas como o NeMo Guardrails funcionem sem saber que estão usando OCI.
-
->**Mais importante:**
-Esse modelo permite evoluir para:
-- múltiplos LLMs
-- fallback entre provedores
-- balanceamento
-- controle centralizado
+> **Note:** **decouple the language model (LLM) from the application**, creating an intermediate layer that allows:
+- easy model switching  
+- integration with multiple providers (OCI, OpenAI, local models)  
+- standardized consumption via the OpenAI API  
 
 ---
 
-## Conceitos Fundamentais (Explicação detalhada)
+## Core Idea
 
-### 1. Proxy OpenAI-Compatible
+The `oci_openai_proxy.py` acts as a **universal adapter**:
 
-Um proxy é uma aplicação intermediária que:
+- Receives requests in OpenAI format (`/v1/chat/completions`)  
+- Translates them into OCI Generative AI calls  
+- Returns responses in the same OpenAI format  
 
-- recebe requisições padronizadas
-- adapta para outro backend
-- retorna no mesmo formato
+> **Note:** This allows tools like NeMo Guardrails to operate without knowing they are using OCI.
 
-Neste caso:
+> **More importantly:**  
+This model enables evolution toward:
+- multiple LLMs  
+- provider fallback  
+- load balancing  
+- centralized control  
 
-Entrada:
+---
+
+## Fundamental Concepts (Detailed Explanation)
+
+### 1. OpenAI-Compatible Proxy
+
+A proxy is an intermediate application that:
+
+- receives standardized requests  
+- adapts them to another backend  
+- returns responses in the same format  
+
+In this case:
+
+Input:
 ```
 /v1/chat/completions
 ```
 
-Saída:
+Output:
 ```
-OCI Generative AI → resposta OpenAI-like
+OCI Generative AI → OpenAI-like response
 ```
 
->**Nota:** Benefício:
-Você não precisa alterar aplicações ao trocar o modelo.
+> **Note (Benefit):**  
+You don’t need to modify applications when switching models.
 
 ---
 
 ### 2. NeMo Guardrails
 
-O **entity["software","NVIDIA NeMo Guardrails","framework"]** é um framework que permite:
+NVIDIA NeMo Guardrails is a framework that enables:
 
-- controlar comportamento do LLM
-- aplicar regras de segurança
-- garantir previsibilidade
+- controlling LLM behavior  
+- applying safety rules  
+- ensuring predictability  
 
-Ele atua como uma camada entre:
+It operates as a layer between:
 
 ```
-Usuário ↔ Guardrails ↔ LLM
+User ↔ Guardrails ↔ LLM
 ```
 
 ---
 
 ### 3. Guardrails (Rails)
 
-Guardrails são regras que atuam em pontos específicos:
+Guardrails are rules applied at specific stages:
 
-- antes da entrada (input)
-- durante o processamento
-- após a resposta (output)
+- before input (input)  
+- during processing  
+- after response (output)  
 
->**Nota:** Eles permitem:
-- bloquear conteúdo
-- validar respostas
-- controlar comportamento
+> **Note:** They allow:
+- blocking content  
+- validating responses  
+- controlling behavior  
 
 ---
 
-### 4. Arquitetura Final
+### 4. Final Architecture
 
 ```
 User
  ↓
 NeMo Guardrails
  ↓
-Proxy OpenAI (porta 8051)
+OpenAI Proxy (port 8051)
  ↓
 OCI Generative AI
  ↓
-Resposta
+Response
 ```
 
 ---
 
-## Pré-requisitos
+## Prerequisites
 
-- Python 3.10+
-- OCI configurado (`~/.oci/config`)
-- Dependências:
+- Python 3.10+  
+- OCI configured (`~/.oci/config`)  
+- Dependencies:
 
 ```bash
 pip install nemoguardrails fastapi uvicorn
@@ -121,23 +121,23 @@ pip install nemoguardrails fastapi uvicorn
 
 ---
 
-## Subindo o Proxy OCI
+## Running the OCI Proxy
 
-### Arquivo: oci_openai_proxy.py
+### File: oci_openai_proxy.py
 
-Este arquivo é responsável por:
+This file is responsible for:
 
-- expor endpoint OpenAI
-- traduzir requisições para OCI
-- formatar respostas
+- exposing an OpenAI-compatible endpoint  
+- translating requests to OCI  
+- formatting responses  
 
-### Execução
+### Execution
 
 ```bash
 uvicorn oci_openai_proxy:app --host 0.0.0.0 --port 8051
 ```
 
->**Nota:** Endpoint disponível:
+> **Note:** Available endpoint:
 
 ```
 http://localhost:8051/v1/chat/completions
@@ -145,9 +145,9 @@ http://localhost:8051/v1/chat/completions
 
 ---
 
-## Configuração do NeMo Guardrails
+## Configuring NeMo Guardrails
 
-### Estrutura de arquivos
+### File structure
 
 ```
 config/
@@ -157,13 +157,13 @@ config/
 
 ---
 
-## Arquivo: config.yml (Explicação detalhada)
+## File: config.yml (Detailed Explanation)
 
-Este é o arquivo principal de configuração.
+This is the main configuration file.
 
 ### models
 
-Define qual modelo será usado.
+Defines which model will be used.
 
 ```yaml
 models:
@@ -172,8 +172,7 @@ models:
     model: gpt-4
 ```
 
->**Nota:** Importante:
-Mesmo usando OCI, usamos `engine: openai` porque o proxy simula essa API.
+> **Note:** Even using OCI, we use `engine: openai` because the proxy simulates this API.
 
 ---
 
@@ -185,8 +184,8 @@ parameters:
   api_key: dummy
 ```
 
-- `base_url`: aponta para o proxy
-- `api_key`: não é usada, mas é exigida pela interface OpenAI
+- `base_url`: points to the proxy  
+- `api_key`: not used, but required by OpenAI interface  
 
 ---
 
@@ -202,26 +201,26 @@ rails:
       - self check output
 ```
 
->**Nota:** Define quais regras serão aplicadas.
+> **Note:** Defines which rules will be applied.
 
 ---
 
-## Arquivo: rails.co (Explicação detalhada)
+## File: rails.co (Detailed Explanation)
 
-Este arquivo define os **fluxos de comportamento**.
+This file defines **behavior flows**.
 
-Ele usa a linguagem Colang.
+It uses Colang language.
 
-### Exemplo:
+### Example:
 
 ```co
 define flow self check input
   user input
-  bot respond "Input validado"
+  bot respond "Input validated"
 ```
 
->**Nota:** Isso significa:
-Sempre que houver entrada do usuário, execute esse fluxo.
+> **Note:** This means:
+Whenever user input occurs, this flow is executed.
 
 ---
 
@@ -230,46 +229,46 @@ Sempre que houver entrada do usuário, execute esse fluxo.
 ```co
 define flow self check output
   bot output
-  bot respond "Output validado"
+  bot respond "Output validated"
 ```
 
->**Nota:** Intercepta a saída antes de retornar ao usuário.
+> **Note:** Intercepts output before returning to user.
 
 ---
 
-## Executando o NeMo
+## Running NeMo
 
 ```bash
 nemoguardrails run --config config
 ```
 
->**Nota:** Isso inicia o servidor do guardrails.
+> **Note:** This starts the guardrails server.
 
 ---
 
-## Testando
+## Testing
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "model": "gpt-4",
-    "messages": [{"role": "user", "content": "Olá"}]
+    "messages": [{"role": "user", "content": "Hello"}]
   }'
 ```
 
 ---
 
-## Resultados Esperados
+## Expected Results
 
-Você deverá observar:
+You should observe:
 
-- request passa pelo guardrails
-- proxy é acionado
-- OCI responde
-- saída é filtrada
+- request goes through guardrails  
+- proxy is invoked  
+- OCI responds  
+- output is filtered  
 
-Fluxo real:
+Real flow:
 
 ```
 User
@@ -280,30 +279,30 @@ LLM (via Proxy)
  ↓
 Output Rails
  ↓
-Resposta final
+Final Response
 ```
 
 ---
 
-## Observações Importantes
+## Important Notes
 
-- O proxy deve estar ativo antes do NeMo
-- Logs podem ser ativados para debug
-- O sistema é extensível para:
-  - múltiplos modelos
-  - fallback automático
-  - auditoria
+- Proxy must be running before NeMo  
+- Logs can be enabled for debugging  
+- System is extensible for:
+  - multiple models  
+  - automatic fallback  
+  - auditing  
 
 ---
 
-## Conclusão
+## Conclusion
 
-Este modelo permite:
+This model allows:
 
-- desacoplar LLM da aplicação
-- trocar backend sem impacto
-- aplicar governança com guardrails
-- evoluir para arquitetura multi-modelo
+- decoupling LLM from application  
+- switching backend without impact  
+- applying governance with guardrails  
+- evolving to multi-model architecture  
 
 ---
 
@@ -311,34 +310,30 @@ Este modelo permite:
 
 - [NeMo Guardrails Library Configuration Overview](https://docs.nvidia.com/nemo/guardrails/latest/configure-rails/overview.html)
 
-Visão geral de como estruturar o sistema de controle do LLM
-
+Overview of how to structure the LLM control system
 
 
 - [Tools Integration with the NeMo Guardrails Library](https://docs.nvidia.com/nemo/guardrails/latest/integration/tools-integration.html)
 
-Como integrar ferramentas externas (tools/APIs) dentro de um fluxo com NVIDIA NeMo Guardrails.
-- Executar ações externas
-- Chamar APIs
-- Usar funções ou serviços do sistema
-- Integrar com agentes e workflows reais
+How to integrate external tools (tools/APIs) into a workflow with NVIDIA NeMo Guardrails:
+	•	Execute external actions
+	•	Call APIs
+	•	Use system functions or services
+	•	Integrate with real agents and workflows
 
 
 ### Observability:
 
 - [Logging and Debugging Guardrails Generated Responses](https://docs.nvidia.com/nemo/guardrails/latest/observability/logging/index.html)
 
-Como observar, entender e depurar o que acontece dentro do fluxo de guardrails durante a execução de um LLM.
+How to observe, understand, and debug what happens within the guardrails flow during the execution of an LLM.
 
 - [Quick Start for Tracing Guardrails](https://docs.nvidia.com/nemo/guardrails/latest/observability/tracing/quick-start.html)
 
-Exemplo de código para habilitar tracing (rastreamento detalhado) no NeMo Guardrails usando OpenTelemetry.
-
-
+Example code to enable tracing (detailed execution tracking) in NeMo Guardrails using OpenTelemetry.
 
 ---
 
-
 ## Acknowledgments
 
-- **Author** - Cristiano Hoshikawa (Oracle LAD A-Team Solution Engineer)
+- Author: Cristiano Hoshikawa (Oracle LAD A-Team Solution Engineer)
