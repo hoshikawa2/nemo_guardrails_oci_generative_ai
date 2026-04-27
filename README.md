@@ -1,5 +1,5 @@
 
-# Advanced Tutorial: Integrating NeMo Guardrails with OCI Generative AI via an OpenAI-Compatible Proxy
+# Integrating NeMo Guardrails with OCI Generative AI via an OpenAI-Compatible Proxy
 
 ---
 
