@@ -307,6 +307,37 @@ Este modelo permite:
 
 ---
 
+## References
+
+NeMo Guardrails Library Configuration Overview
+Visão geral de como estruturar o sistema de controle do LLM
+https://docs.nvidia.com/nemo/guardrails/latest/configure-rails/overview.html
+
+
+Tools Integration with the NeMo Guardrails Library
+Como integrar ferramentas externas (tools/APIs) dentro de um fluxo com NVIDIA NeMo Guardrails.
+  • Executar ações externas
+  • Chamar APIs
+  • Usar funções ou serviços do sistema
+  • Integrar com agentes e workflows reais
+https://docs.nvidia.com/nemo/guardrails/latest/integration/tools-integration.html
+
+
+Observability:
+
+Logging and Debugging Guardrails Generated Responses
+Como observar, entender e depurar o que acontece dentro do fluxo de guardrails durante a execução de um LLM.
+https://docs.nvidia.com/nemo/guardrails/latest/observability/logging/index.html
+
+Quick Start for Tracing Guardrails
+Exemplo de código para habilitar tracing (rastreamento detalhado) no NeMo Guardrails usando OpenTelemetry.
+https://docs.nvidia.com/nemo/guardrails/latest/observability/tracing/quick-start.html
+
+
+
+---
+
+
 ## Acknowledgments
 
 - **Author** - Cristiano Hoshikawa (Oracle LAD A-Team Solution Engineer)
