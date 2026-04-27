@@ -309,15 +309,13 @@ Este modelo permite:
 
 ## References
 
-- [NeMo Guardrails Library Configuration Overview]
-(https://docs.nvidia.com/nemo/guardrails/latest/configure-rails/overview.html)
+- [NeMo Guardrails Library Configuration Overview](https://docs.nvidia.com/nemo/guardrails/latest/configure-rails/overview.html)
 
 Visão geral de como estruturar o sistema de controle do LLM
 
 
 
-- [Tools Integration with the NeMo Guardrails Library]
-(https://docs.nvidia.com/nemo/guardrails/latest/integration/tools-integration.html)
+- [Tools Integration with the NeMo Guardrails Library](https://docs.nvidia.com/nemo/guardrails/latest/integration/tools-integration.html)
 
 Como integrar ferramentas externas (tools/APIs) dentro de um fluxo com NVIDIA NeMo Guardrails.
   • Executar ações externas
@@ -328,13 +326,11 @@ Como integrar ferramentas externas (tools/APIs) dentro de um fluxo com NVIDIA Ne
 
 ### Observability:
 
-- [Logging and Debugging Guardrails Generated Responses]
-(https://docs.nvidia.com/nemo/guardrails/latest/observability/logging/index.html)
+- [Logging and Debugging Guardrails Generated Responses](https://docs.nvidia.com/nemo/guardrails/latest/observability/logging/index.html)
 
 Como observar, entender e depurar o que acontece dentro do fluxo de guardrails durante a execução de um LLM.
 
-- [Quick Start for Tracing Guardrails]
-(https://docs.nvidia.com/nemo/guardrails/latest/observability/tracing/quick-start.html)
+- [Quick Start for Tracing Guardrails](https://docs.nvidia.com/nemo/guardrails/latest/observability/tracing/quick-start.html)
 
 Exemplo de código para habilitar tracing (rastreamento detalhado) no NeMo Guardrails usando OpenTelemetry.
 
