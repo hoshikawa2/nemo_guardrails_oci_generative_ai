@@ -1,0 +1,10 @@
+define bot refuse to respond
+  "I'm sorry, I can't respond to that."
+
+define subflow keyword check input
+  """Check if the user input contains any forbidden keywords."""
+  $result = execute detect_keywords(source="input", text=$user_message)
+
+  if $result["is_match"]
+    bot refuse to respond
+    stop

@@ -26,8 +26,7 @@ The `oci_openai_proxy.py` acts as a **universal adapter**:
 
 > **Note:** This allows tools like NeMo Guardrails to operate without knowing they are using OCI.
 
-> **More importantly:**  
-This model enables evolution toward:
+**More importantly:** This model enables evolution toward:
 - multiple LLMs  
 - provider fallback  
 - load balancing  
@@ -86,7 +85,7 @@ Guardrails are rules applied at specific stages:
 - during processing  
 - after response (output)  
 
-> **Note:** They allow:
+**Note:** They allow:
 - blocking content  
 - validating responses  
 - controlling behavior  
@@ -108,7 +107,6 @@ Response
 ```
 
 ---
-
 ## Prerequisites
 
 - Python 3.10+  
@@ -122,6 +120,12 @@ pip install nemoguardrails fastapi uvicorn
 ---
 
 ## Running the OCI Proxy
+
+To configure the proxy, you can read more here:
+
+[Integrating OpenClaw with Oracle Cloud Generative AI (OCI)
+](https://github.com/hoshikawa2/openclaw-oci)
+
 
 ### File: oci_openai_proxy.py
 
@@ -137,7 +141,7 @@ This file is responsible for:
 uvicorn oci_openai_proxy:app --host 0.0.0.0 --port 8051
 ```
 
-> **Note:** Available endpoint:
+**Available endpoint:**
 
 ```
 http://localhost:8051/v1/chat/completions
@@ -307,6 +311,9 @@ This model allows:
 ---
 
 ## References
+
+- [Integrating OpenClaw with Oracle Cloud Generative AI (OCI)
+  ](https://github.com/hoshikawa2/openclaw-oci)
 
 - [NeMo Guardrails Library Configuration Overview](https://docs.nvidia.com/nemo/guardrails/latest/configure-rails/overview.html)
 
