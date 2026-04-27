@@ -310,6 +310,12 @@ This model allows:
 
 ---
 
+## Disclaimer
+
+>**IMPORTANT**: The source code must be used at your own risk. There is no support and/or link with any company. The source code is free to modify and was built solely for the purpose of helping the community
+
+--- 
+
 ## References
 
 - [Integrating OpenClaw with Oracle Cloud Generative AI (OCI)
