@@ -20,7 +20,7 @@ import torch
 # ============================================================
 
 OCI_CONFIG_FILE = os.getenv("OCI_CONFIG_FILE", os.path.expanduser("~/.oci/config"))
-OCI_PROFILE = os.getenv("OCI_PROFILE", "DEFAULT")
+OCI_PROFILE = os.getenv("OCI_PROFILE", "LATINOAMERICA-Chicago")
 OCI_COMPARTMENT_ID = os.getenv("OCI_COMPARTMENT_ID", "<YOUR_COMPARTMENT_ID>")
 OCI_GENAI_ENDPOINT = os.getenv(
     "OCI_GENAI_ENDPOINT",
@@ -29,19 +29,19 @@ OCI_GENAI_ENDPOINT = os.getenv(
 if not OCI_COMPARTMENT_ID:
     raise RuntimeError("OCI_COMPARTMENT_ID not defined")
 
-OPENCLAW_TOOLS_ACTIVE = True
+OPENCLAW_TOOLS_ACTIVE = False
 HF_MODEL_NAME = os.getenv("HF_MODEL_NAME", "meta-llama/Llama-4-Maverick-17B-128E-Instruct")
-PROVIDER = "HUGGINGFACE"
+PROVIDER = "OCI"
 
 # ============================================================
 # HUGGINGFACE
 # ============================================================
-tokenizer = AutoTokenizer.from_pretrained(HF_MODEL_NAME)
-model = AutoModelForCausalLM.from_pretrained(
-    HF_MODEL_NAME,
-    torch_dtype=torch.float16,
-    device_map="auto"
-)
+#tokenizer = AutoTokenizer.from_pretrained(HF_MODEL_NAME)
+#model = AutoModelForCausalLM.from_pretrained(
+#    HF_MODEL_NAME,
+#    torch_dtype=torch.float16,
+#    device_map="auto"
+#)
 
 def normalize_messages(messages):
     out = []
@@ -116,49 +116,49 @@ def call_chat(body: dict, system_prompt: str):
         return call_huggingface_chat(body=body, system_prompt=system_prompt)
 
 def call_huggingface_chat(body: dict, system_prompt: str):
+    return None
+    # messages = body.get("messages", [])
+    # messages = normalize_messages(messages)
+    # prompt = build_prompt(messages, system_prompt)
 
-    messages = body.get("messages", [])
-    messages = normalize_messages(messages)
-    prompt = build_prompt(messages, system_prompt)
+    # inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 
-    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+    # with torch.no_grad():
+    #     temperature = float(body.get("temperature", 0.0))
+    #     top_p = float(body.get("top_p", 1.0))
 
-    with torch.no_grad():
-        temperature = float(body.get("temperature", 0.0))
-        top_p = float(body.get("top_p", 1.0))
+    #     gen_kwargs = {
+    #         "max_new_tokens": int(body.get("max_tokens", 512)),
+    #         "eos_token_id": tokenizer.eos_token_id,
+    #     }
 
-        gen_kwargs = {
-            "max_new_tokens": int(body.get("max_tokens", 512)),
-            "eos_token_id": tokenizer.eos_token_id,
-        }
+    #     if temperature > 0:
+    #         gen_kwargs.update({
+    #             "do_sample": True,
+    #             "temperature": temperature,
+    #             "top_p": top_p
+    #         })
+    #     else:
+    #         gen_kwargs.update({
+    #             "do_sample": False
+    #         })
 
-        if temperature > 0:
-            gen_kwargs.update({
-                "do_sample": True,
-                "temperature": temperature,
-                "top_p": top_p
-            })
-        else:
-            gen_kwargs.update({
-                "do_sample": False
-            })
+    #     outputs = model.generate(**inputs, **gen_kwargs)
 
-        outputs = model.generate(**inputs, **gen_kwargs)
+    # generated = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-    generated = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    # # 🔥 extrai só a resposta final
+    # response_text = generated[len(prompt):].strip()
 
-    # 🔥 extrai só a resposta final
-    response_text = generated[len(prompt):].strip()
-
-    return {
-        "choices": [{
-            "message": {
-                "role": "assistant",
-                "content": response_text
-            },
-            "finishReason": "stop"
-        }]
-    }
+    # return {
+    #     "choices": [{
+    #         "message": {
+    #             "role": "assistant",
+    #             "content": response_text
+    #         },
+    #         "finishReason": "stop"
+    #     }]
+    # }
 # ============================================================
 # PROMPTS to adapt for OCI
 # ============================================================
@@ -725,7 +725,8 @@ async def chat_completions(request: Request):
         chat_response = run_exec_loop(body, max_steps=10000)
     else:
         # 🔥 Modo enterprise → seu agent_loop controla tools
-        chat_response = agent_loop(body)
+        # chat_response = agent_loop(body)
+        chat_response = call_chat(body, "")
 
     # print("FINAL RESPONSE:", json.dumps(chat_response, indent=2))
 
